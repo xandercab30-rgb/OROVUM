@@ -1,0 +1,3771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Architectural Directory</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #252923;
+    overflow: hidden;
+}
+
+button,
+a {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   MAIN WEBSITE
+========================================================= */
+
+.website {
+    display: grid;
+
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 90px 1fr;
+
+    width: 100vw;
+    height: 100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    grid-column: 1;
+    grid-row: 1 / 3;
+
+    background: #1d211f;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    height: 90px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-bottom: 1px solid #343936;
+}
+
+.logo-mark {
+    width: 48px;
+    height: 48px;
+
+    border: 2px solid #eeeeea;
+
+    clip-path: polygon(
+        50% 0%,
+        100% 100%,
+        0% 100%
+    );
+
+    position: relative;
+}
+
+.logo-mark::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    width: 2px;
+    height: 100%;
+
+    background: #eeeeea;
+
+    transform: translateX(-50%);
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.navigation {
+    margin-top: 25px;
+}
+
+.nav-item {
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 28px;
+
+    color: #bfc4be;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    transition: 0.2s;
+}
+
+.nav-item:hover {
+    background: #2d342e;
+    color: white;
+}
+
+.nav-item.active {
+    background: #68725b;
+    color: white;
+}
+
+.nav-icon {
+    width: 25px;
+    margin-right: 18px;
+
+    font-size: 18px;
+    text-align: center;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+========================================================= */
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 25px;
+}
+
+.sidebar-line {
+    height: 1px;
+
+    background: #555b55;
+
+    margin-bottom: 25px;
+}
+
+.mode {
+    color: #aeb3ad;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+    grid-column: 2;
+    grid-row: 1;
+
+    background: #efeee8;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 32px;
+
+    border-bottom: 1px solid #c8c9c1;
+}
+
+.header-title {
+    font-size: 20px;
+
+    letter-spacing: 5px;
+
+    margin: 0 0 8px 0;
+
+    font-weight: 400;
+}
+
+.header-subtitle {
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    color: #6d716c;
+}
+
+.header-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+}
+
+.header-tag {
+    border-left: 1px solid #b9bbb4;
+
+    padding-left: 25px;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    line-height: 1.8;
+
+    color: #555a55;
+}
+
+.menu {
+    width: 28px;
+}
+
+.menu span {
+    display: block;
+
+    height: 2px;
+
+    background: #30342f;
+
+    margin: 6px 0;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content {
+    grid-column: 2;
+    grid-row: 2;
+
+    padding: 25px;
+
+    display: grid;
+
+    grid-template-columns: minmax(400px, 1fr) 350px;
+
+    gap: 22px;
+
+    min-height: 0;
+}
+
+
+/* =========================================================
+   PLAN VIEWPORT
+========================================================= */
+
+.plan-wrapper {
+    position: relative;
+
+    background: #ffffff;
+
+    border: 1px solid #d5d5d0;
+
+    border-radius: 4px;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+    cursor: grab;
+}
+
+.plan-wrapper.dragging {
+    cursor: grabbing;
+}
+
+
+/* =========================================================
+   ZOOM CONTROLS
+========================================================= */
+
+.zoom-controls {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    z-index: 80;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    background: rgba(255,255,255,0.94);
+
+    border: 1px solid #c9cbc5;
+
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+
+    padding: 4px;
+}
+
+.zoom-button {
+    width: 32px;
+    height: 30px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #343934;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.zoom-button:hover {
+    background: #68725b;
+    color: white;
+}
+
+.zoom-level {
+    min-width: 55px;
+
+    text-align: center;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    color: #555b56;
+}
+
+.zoom-help {
+    position: absolute;
+
+    left: 18px;
+    bottom: 18px;
+
+    z-index: 80;
+
+    background: rgba(255,255,255,0.9);
+
+    border: 1px solid #d2d3cd;
+
+    padding: 8px 11px;
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+
+    color: #656a64;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   PLAN CANVAS
+
+   The source image is 2550 × 3300, displayed at
+   1582 × 2048 (same aspect ratio).
+
+   Everything inside this element (hotspots + markers)
+   uses that 1582 × 2048 coordinate space.
+========================================================= */
+
+.plan-canvas {
+    position: absolute;
+
+    width: 1582px;
+    height: 2048px;
+
+    left: 50%;
+    top: 50%;
+
+    transform-origin: center center;
+
+    will-change: transform;
+
+    user-select: none;
+}
+
+
+/* =========================================================
+   PLAN IMAGE
+========================================================= */
+
+.plan-image {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 1582px;
+    height: 2048px;
+
+    display: block;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+/* =========================================================
+   HOTSPOTS  (SVG overlay)
+
+   Every hotspot is an exact outline traced from the plan
+   image (see the <defs> in the markup).  The overlay is
+   click-through everywhere except on the shapes themselves.
+========================================================= */
+
+.hotspots {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 1582px;
+    height: 2048px;
+
+    overflow: visible;          /* lets the glow bleed past the plan edge */
+
+    z-index: 20;
+
+    pointer-events: none;
+}
+
+.hotspot {
+    fill: rgba(255,255,255,0);
+    stroke: none;
+
+    pointer-events: all;
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+
+/* =========================================================
+   GLOW
+
+   One shared glow layer follows whichever location is
+   hovered / focused (on the plan, on a marker, or in the
+   Site Directory list).  Stroke width and blur radii are
+   rescaled in JS on every zoom so the glow keeps the same
+   on-screen size.
+========================================================= */
+
+.glow-layer {
+    opacity: 0;
+
+    transition: opacity 0.3s ease;
+
+    pointer-events: none;
+}
+
+.glow-layer.on {
+    opacity: 1;
+}
+
+.glow-fill {
+    fill: rgba(255,255,255,0.16);
+
+    stroke: none;
+}
+
+.glow-halo,
+.glow-line {
+    fill: none;
+
+    stroke: #ffffff;
+
+    stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   NUMBER MARKERS
+
+   left / top sit on the true centre of each feature;
+   translate(-50%, -50%) puts the middle of the circle there.
+========================================================= */
+
+.marker {
+    position: absolute;
+
+    z-index: 40;
+
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.96);
+
+    border: 2px solid #252923;
+
+    color: #252923;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transform: translate(-50%, -50%);
+
+    box-shadow:
+        0 2px 7px rgba(0,0,0,0.22);
+
+    transition:
+        transform 0.18s,
+        background 0.18s,
+        color 0.18s,
+        border-color 0.18s,
+        box-shadow 0.25s;
+}
+
+.marker:hover,
+.marker.active {
+    transform: translate(-50%, -50%) scale(1.18);
+
+    background: #68725b;
+
+    color: white;
+
+    border-color: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(255,255,255,0.9),
+        0 0 16px 7px rgba(255,255,255,0.8),
+        0 2px 8px rgba(0,0,0,0.3);
+}
+
+
+/* =========================================================
+   MARKER POSITIONS
+
+   Measured from the true centre (centroid) of each
+   feature's traced outline, in 1582 × 2048 plan units.
+========================================================= */
+
+/* 01 - Purple Building          (was 01 - unchanged) */
+
+.marker-01 {
+    left: 437.4px;
+    top: 1298.3px;
+}
+
+
+/* 02 - Pink Building            (was 02 - unchanged) */
+
+.marker-02 {
+    left: 522.4px;
+    top: 1298.3px;
+}
+
+
+/* 03 - Cyan Building            (was 06 - same coordinates) */
+
+.marker-03 {
+    left: 815.8px;
+    top: 1650.8px;
+}
+
+
+/* 04 - Main Hall                (was 07 - same coordinates) */
+
+.marker-04 {
+    left: 1038.5px;
+    top: 1100.3px;
+}
+
+
+/* 05 - Landscape / Courtyard    (was 08 - same coordinates) */
+
+.marker-05 {
+    left: 938.4px;
+    top: 1203.6px;
+}
+
+
+/* 06 - Circular Museum          (was 09 - same coordinates) */
+
+.marker-06 {
+    left: 1224.3px;
+    top: 1639.6px;
+}
+
+
+/* 07 - Tree / Landscape Zone    (was 10 - same coordinates) */
+
+.marker-07 {
+    left: 1338.1px;
+    top: 1089.5px;
+}
+
+
+/* 08 - Green Strip              (was 12 - same coordinates) */
+
+.marker-08 {
+    left: 1212.6px;
+    top: 1233.8px;
+}
+
+
+
+/* =========================================================
+   PLAN LABEL
+========================================================= */
+
+.plan-label {
+    position: absolute;
+
+    bottom: 15px;
+    left: 20px;
+
+    z-index: 70;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    color: #555;
+
+    background: rgba(255,255,255,0.88);
+
+    padding: 7px 10px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   INFORMATION PANEL
+========================================================= */
+
+.info-panel {
+    background: #efeee8;
+
+    padding: 30px;
+
+    overflow-y: auto;
+
+    border-radius: 4px;
+
+    border: 1px solid #d5d5ce;
+}
+
+.panel-title {
+    font-size: 23px;
+
+    letter-spacing: 6px;
+
+    font-weight: 400;
+
+    margin: 0;
+}
+
+.panel-line {
+    height: 1px;
+
+    background: #c5c7c0;
+
+    margin: 22px 0;
+}
+
+.description {
+    font-size: 12px;
+
+    line-height: 1.9;
+
+    color: #646963;
+
+    letter-spacing: 0.4px;
+}
+
+
+/* =========================================================
+   LEGEND
+========================================================= */
+
+.buildings-title {
+    margin-top: 25px;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+}
+
+.building-list {
+    margin-top: 12px;
+}
+
+.building-list-item {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 11px 4px;
+
+    border-bottom: 1px solid #d0d1ca;
+
+    font-size: 11px;
+
+    color: #555b56;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.building-list-item:hover,
+.building-list-item.active {
+    padding-left: 9px;
+
+    color: #20251f;
+}
+
+.building-name {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.legend-number {
+    width: 23px;
+    height: 23px;
+
+    border-radius: 50%;
+
+    border: 1.5px solid #252923;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: white;
+
+    color: #252923;
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    flex-shrink: 0;
+
+    transition: 0.2s;
+}
+
+.building-list-item.active .legend-number {
+    background: #68725b;
+
+    border-color: #68725b;
+
+    color: white;
+}
+
+.building-dot {
+    width: 15px;
+    height: 15px;
+
+    border-radius: 2px;
+
+    border: 1px solid rgba(0,0,0,0.35);
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   LEGEND COLORS
+========================================================= */
+
+.color-purple {
+    background: #d376ff;
+}
+
+.color-pink {
+    background: #ff76ed;
+}
+
+.color-green {
+    background: #b3ef82;
+}
+
+.color-blue {
+    background: #a5cbff;
+}
+
+.color-lightgreen {
+    background: #b3ef82;
+}
+
+.color-cyan {
+    background: #76f4ff;
+}
+
+.color-yellow {
+    background: #fffD68;
+}
+
+.color-triangle {
+    background: #b3ef82;
+}
+
+.color-red {
+    background: #fb7170;
+}
+
+.color-trees {
+    background: #9bcf72;
+}
+
+.color-water {
+    background: #a5cbff;
+}
+
+.color-strip {
+    background: #b3ef82;
+}
+
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.arrow {
+    font-size: 17px;
+
+    color: #777;
+}
+
+
+/* =========================================================
+   EXPLORE BUTTON
+========================================================= */
+
+.explore-button {
+    margin-top: 25px;
+
+    width: 100%;
+
+    padding: 16px;
+
+    border: none;
+
+    background: #68725b;
+
+    color: white;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.explore-button:hover {
+    background: #515b48;
+}
+
+
+/* =========================================================
+   POPUP OVERLAY
+========================================================= */
+
+.overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(15,18,16,0.55);
+
+    backdrop-filter: blur(4px);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 100;
+}
+
+.overlay.active {
+    display: flex;
+}
+
+
+/* =========================================================
+   DIRECTORY POPUP
+========================================================= */
+
+.directory {
+    width: min(520px, 90vw);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #efeee8;
+
+    padding: 35px;
+
+    position: relative;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.35);
+
+    animation: popup 0.25s ease;
+}
+
+@keyframes popup {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+
+}
+
+.close {
+    position: absolute;
+
+    right: 20px;
+    top: 15px;
+
+    font-size: 25px;
+
+    color: #666;
+
+    cursor: pointer;
+
+    z-index: 5;
+}
+
+.close:hover {
+    color: black;
+}
+
+.directory-number {
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    color: #68725b;
+
+    margin-bottom: 8px;
+}
+
+.directory h2 {
+    margin: 0;
+
+    padding-right: 30px;
+
+    font-size: 25px;
+
+    letter-spacing: 4px;
+
+    font-weight: 400;
+}
+
+.directory-subtitle {
+    margin-top: 8px;
+
+    font-size: 9px;
+
+    color: #777;
+
+    letter-spacing: 2px;
+}
+
+.directory-options {
+    margin-top: 25px;
+}
+
+.directory-option {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 17px;
+
+    margin-bottom: 8px;
+
+    background: #deded7;
+
+    border: 1px solid #ccccC5;
+
+    text-decoration: none;
+
+    color: #30352f;
+
+    transition: 0.2s;
+}
+
+.directory-option:hover {
+    background: #68725b;
+
+    color: white;
+
+    transform: translateX(5px);
+}
+
+.option-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.option-icon {
+    width: 30px;
+
+    text-align: center;
+
+    font-size: 18px;
+}
+
+.option-name {
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+.option-arrow {
+    font-size: 17px;
+}
+
+
+
+/* =========================================================
+   MEDIA GALLERY POPUP        (reusable popup type)
+
+   A second popup style, assigned per-feature through
+   `popupType: "mediaGallery"` in the buildings database.
+   It uses exactly the same palette, typography, borders and
+   shadows as the standard directory popup, but presents a
+   curated grid of media frames instead of a list of links.
+========================================================= */
+
+.media-gallery {
+    width: min(920px, 92vw);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #efeee8;
+
+    padding: 35px 38px 30px 38px;
+
+    position: relative;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.35);
+
+    animation: popup 0.25s ease;
+}
+
+.media-gallery-head {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding-right: 30px;
+}
+
+.media-gallery h2 {
+    margin: 0;
+
+    font-size: 25px;
+
+    letter-spacing: 4px;
+
+    font-weight: 400;
+}
+
+.media-gallery-count {
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    color: #6d716c;
+
+    white-space: nowrap;
+
+    padding-bottom: 4px;
+}
+
+
+/* ---------------------------------------------------------
+   GRID
+
+   Two columns.  The right-hand column is dropped slightly so
+   the composition reads as a curated architectural spread
+   rather than four identical buttons.
+--------------------------------------------------------- */
+
+.media-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 22px;
+
+    margin-top: 26px;
+}
+
+.media-grid .media-card:nth-child(even) {
+    margin-top: 30px;
+}
+
+.media-grid .media-card:nth-child(odd):not(:first-child) {
+    margin-top: -30px;
+}
+
+
+/* ---------------------------------------------------------
+   CARD
+--------------------------------------------------------- */
+
+.media-card {
+    display: block;
+
+    width: 100%;
+
+    padding: 0;
+
+    text-align: left;
+
+    background: #deded7;
+
+    border: 1px solid #ccccc5;
+
+    color: #30352f;
+
+    cursor: pointer;
+
+    position: relative;
+
+    box-shadow:
+        0 2px 10px rgba(0,0,0,0.10);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.3s ease,
+        border-color 0.25s ease;
+}
+
+.media-card:hover,
+.media-card:focus-visible {
+    outline: none;
+
+    transform: translateY(-4px) scale(1.012);
+
+    border-color: #ffffff;
+
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.85),
+        0 0 20px rgba(255,255,255,0.45),
+        0 14px 30px rgba(0,0,0,0.22);
+}
+
+
+/* ---------------------------------------------------------
+   CARD IMAGE
+
+   The muted green block behind the image is also the
+   fallback while the preview image is missing, so the
+   layout still reads correctly before you add the files.
+--------------------------------------------------------- */
+
+.media-thumb {
+    position: relative;
+
+    aspect-ratio: 16 / 10;
+
+    overflow: hidden;
+
+    background:
+        repeating-linear-gradient(
+            135deg,
+            #cfd2c7 0px,
+            #cfd2c7 9px,
+            #c7cbbf 9px,
+            #c7cbbf 18px
+        );
+
+    border-bottom: 1px solid #ccccc5;
+}
+
+.media-thumb img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: transform 0.45s ease;
+}
+
+.media-thumb img.missing {
+    display: none;
+}
+
+.media-card:hover .media-thumb img {
+    transform: scale(1.04);
+}
+
+.media-index {
+    position: absolute;
+
+    left: 14px;
+    top: 14px;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    background: rgba(255,255,255,0.92);
+
+    border: 1px solid rgba(37,41,35,0.35);
+
+    padding: 5px 8px;
+
+    color: #252923;
+}
+
+
+/* ---------------------------------------------------------
+   PLAY INDICATOR
+--------------------------------------------------------- */
+
+.media-play {
+    position: absolute;
+
+    right: 14px;
+    bottom: 14px;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.94);
+
+    border: 1px solid #68725b;
+
+    color: #3f4738;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 13px;
+
+    padding-left: 3px;
+
+    transition:
+        background 0.25s,
+        color 0.25s,
+        box-shadow 0.3s;
+}
+
+.media-card:hover .media-play {
+    background: #68725b;
+
+    color: #ffffff;
+
+    border-color: #ffffff;
+
+    box-shadow:
+        0 0 0 2px rgba(255,255,255,0.85),
+        0 0 14px rgba(255,255,255,0.55);
+}
+
+
+/* ---------------------------------------------------------
+   CARD TEXT
+--------------------------------------------------------- */
+
+.media-text {
+    padding: 15px 16px 17px 16px;
+}
+
+.media-title {
+    font-size: 11px;
+
+    letter-spacing: 2.5px;
+
+    color: #252923;
+}
+
+.media-caption {
+    margin-top: 7px;
+
+    font-size: 10px;
+
+    line-height: 1.7;
+
+    letter-spacing: 0.4px;
+
+    color: #6a6f68;
+}
+
+.media-footnote {
+    margin-top: 30px;
+
+    padding-top: 16px;
+
+    border-top: 1px solid #c5c7c0;
+
+    font-size: 8px;
+
+    letter-spacing: 2.5px;
+
+    color: #7a7f78;
+}
+
+
+/* =========================================================
+   VIDEO OVERLAY
+
+   Layered ABOVE the media gallery popup, so closing the
+   video returns the user straight to the gallery.
+========================================================= */
+
+.video-overlay {
+    background: rgba(10,12,11,0.82);
+
+    z-index: 120;
+}
+
+.video-stage {
+    width: min(1080px, 94vw);
+
+    background: #efeee8;
+
+    border: 1px solid #c8c9c1;
+
+    padding: 16px 16px 0 16px;
+
+    position: relative;
+
+    box-shadow:
+        0 40px 100px rgba(0,0,0,0.5);
+
+    animation: videoIn 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@keyframes videoIn {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(22px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+.video-stage video {
+    width: 100%;
+
+    max-height: 68vh;
+
+    display: block;
+
+    background: #141714;
+
+    outline: none;
+}
+
+.video-meta {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    padding: 16px 4px 18px 4px;
+}
+
+.video-meta-number {
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    color: #68725b;
+
+    margin-bottom: 7px;
+}
+
+.video-meta-title {
+    font-size: 15px;
+
+    letter-spacing: 4px;
+
+    font-weight: 400;
+
+    margin: 0;
+}
+
+.video-meta-caption {
+    margin-top: 8px;
+
+    font-size: 10px;
+
+    letter-spacing: 0.4px;
+
+    line-height: 1.7;
+
+    color: #6a6f68;
+
+    max-width: 620px;
+}
+
+.video-back {
+    flex-shrink: 0;
+
+    border: 1px solid #c2c4bc;
+
+    background: #deded7;
+
+    color: #30352f;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    padding: 11px 16px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.video-back:hover {
+    background: #68725b;
+
+    color: #ffffff;
+
+    border-color: #68725b;
+}
+
+.video-close {
+    position: absolute;
+
+    right: -6px;
+    top: -34px;
+
+    font-size: 24px;
+
+    line-height: 1;
+
+    color: #eceee9;
+
+    background: none;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+.video-close:hover {
+    color: #ffffff;
+}
+
+
+@media (max-width: 760px) {
+
+    .media-grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .media-grid .media-card:nth-child(even),
+    .media-grid .media-card:nth-child(odd):not(:first-child) {
+        margin-top: 0;
+    }
+
+    .media-gallery {
+        padding: 30px 20px 24px 20px;
+    }
+
+    .media-gallery-head {
+        display: block;
+    }
+
+    .media-gallery-count {
+        margin-top: 8px;
+    }
+
+    .video-meta {
+        display: block;
+    }
+
+    .video-back {
+        margin-top: 14px;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .media-card,
+    .media-thumb img,
+    .video-stage {
+        transition: none;
+
+        animation: none;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .website {
+        grid-template-columns: 80px 1fr;
+    }
+
+    .nav-item {
+        justify-content: center;
+
+        padding: 0;
+    }
+
+    .nav-item span:last-child {
+        display: none;
+    }
+
+    .nav-icon {
+        margin: 0;
+    }
+
+    .sidebar-bottom {
+        padding: 15px;
+    }
+
+    .mode {
+        display: none;
+    }
+
+    .content {
+        grid-template-columns: 1fr;
+
+        overflow-y: auto;
+    }
+
+    .info-panel {
+        min-height: 400px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    body {
+        overflow: auto;
+    }
+
+    .website {
+        display: block;
+
+        height: auto;
+
+        min-height: 100vh;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .header {
+        height: 75px;
+    }
+
+    .header-title {
+        font-size: 13px;
+
+        letter-spacing: 3px;
+    }
+
+    .header-tag {
+        display: none;
+    }
+
+    .content {
+        padding: 15px;
+
+        display: block;
+    }
+
+    .plan-wrapper {
+        height: 65vh;
+    }
+
+    .info-panel {
+        margin-top: 15px;
+    }
+
+    .zoom-help {
+        display: none;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .glow-layer,
+    .marker {
+        transition: none;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     WEBSITE
+===================================================== -->
+
+<div class="website">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-mark"></div>
+        </div>
+
+
+        <nav class="navigation">
+
+            <a href="#" class="nav-item active">
+                <span class="nav-icon">⌑</span>
+                <span>SITE PLAN</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▥</span>
+                <span>BUILDINGS</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▷</span>
+                <span>MEDIA</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>ABOUT</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-line"></div>
+
+            <div class="mode">
+                INTERACTIVE MASTERPLAN
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <header class="header">
+
+        <div>
+
+            <h1 class="header-title">
+                THE ARCHITECTURAL DIRECTORY
+            </h1>
+
+            <div class="header-subtitle">
+                SITE PLAN
+                &nbsp; / &nbsp;
+                CONCEPTS
+                &nbsp; / &nbsp;
+                MEDIA
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <div class="header-tag">
+                EXPLORE THE SPACES.<br>
+                DISCOVER THE IDEAS.
+            </div>
+
+            <div class="menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         MAIN CONTENT
+    ================================================== -->
+
+    <main class="content">
+
+
+        <!-- =================================================
+             PLAN VIEWPORT
+        ================================================== -->
+
+        <section
+            class="plan-wrapper"
+            id="planViewport"
+        >
+
+
+            <!-- =================================================
+                 ZOOM CONTROLS
+            ================================================== -->
+
+            <div class="zoom-controls">
+
+                <button
+                    class="zoom-button"
+                    onclick="zoomOut()">
+                    −
+                </button>
+
+                <div
+                    class="zoom-level"
+                    id="zoomLevel">
+                    FIT
+                </div>
+
+                <button
+                    class="zoom-button"
+                    onclick="zoomIn()">
+                    +
+                </button>
+
+                <button
+                    class="zoom-button"
+                    onclick="fitPlan()">
+                    ⌂
+                </button>
+
+            </div>
+
+
+            <div class="zoom-help">
+                SCROLL TO ZOOM &nbsp; / &nbsp; DRAG TO PAN
+            </div>
+
+
+
+            <!-- =================================================
+                 TRANSFORMABLE PLAN
+            ================================================== -->
+
+            <div
+                class="plan-canvas"
+                id="planCanvas"
+            >
+
+
+                <!-- PLAN IMAGE -->
+
+                <img
+                    class="plan-image"
+                    src="plan.png"
+                    alt="Architectural Site Plan"
+                    draggable="false"
+                >
+
+
+
+                <!-- =================================================
+                     HOTSPOTS + GLOW  (traced from plan.png)
+                ================================================== -->
+
+                <svg
+                    class="hotspots"
+                    viewBox="0 0 1582 2048"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-label="Site plan locations">
+
+                    <defs>
+
+                        <!-- White glow.  Blur radii are rescaled in JS on zoom. -->
+                        <filter
+                            id="hotspotGlow"
+                            filterUnits="userSpaceOnUse"
+                            x="-600" y="-600"
+                            width="2782" height="3248"
+                            color-interpolation-filters="sRGB">
+
+                            <feGaussianBlur in="SourceAlpha" id="glowShadowBlur" stdDeviation="20" result="shadowBlur"/>
+                            <feFlood flood-color="#1d211f" flood-opacity="0.26"/>
+                            <feComposite in2="shadowBlur" operator="in" result="shadow"/>
+
+                            <feGaussianBlur in="SourceGraphic" id="glowWideBlur" stdDeviation="32" result="wide"/>
+                            <feGaussianBlur in="SourceGraphic" id="glowTightBlur" stdDeviation="11" result="tight"/>
+
+                            <feMerge>
+                                <feMergeNode in="shadow"/>
+                                <feMergeNode in="wide"/>
+                                <feMergeNode in="wide"/>
+                                <feMergeNode in="tight"/>
+                            </feMerge>
+
+                        </filter>
+
+                        <!-- 01 Purple Building -->
+                        <path id="s-01" d="M395.8 798.7 L479.6 798.7 L479.6 1798.5 L395.8 1798.5 Z"/>
+
+                        <!-- 02 Pink Building -->
+                        <path id="s-02" d="M480.8 798.7 L564.6 798.7 L564.6 1798.5 L480.8 1798.5 Z"/>
+
+                        <!-- 03 Cyan Building            (was 06) -->
+                        <path id="s-03" d="M774.2 1503.7 L858 1503.7 L858 1798.5 L774.2 1798.5 Z"/>
+
+                        <!-- 04 Main Hall                (was 07) -->
+                        <path id="s-04" d="M1121.8 1339.6 L881.1 901.9 L955.2 861.1 L1195.9 1298.8 Z"/>
+
+                        <!-- 05 Landscape / Courtyard    (was 08) -->
+                        <path id="s-05" d="M1049.2 1281 L878.2 972.2 L887.7 1357.4 Z"/>
+
+                        <!-- 06 Circular Museum          (was 09) -->
+                        <circle id="s-06" cx="1224.3" cy="1639.6" r="143"/>
+
+                        <!-- 07 Tree / Landscape Zone    (was 10) -->
+                        <path id="s-07" d="M1144 613.2 L1131 636.7 L1120.4 646.1 L1075.8 670.9 L1034.2 676.5 L1012.5 716.2 L1013.7 735.4 L1028.6 757.8 L1039.8 759 L1049.7 768.3 L1064.6 795 L1067.7 819.8 L1075.1 827.9 L1080.1 841.5 L1097.5 853.3 L1119.8 893.1 L1121 907.9 L1129.1 916 L1134.1 929.7 L1144.6 937.7 L1165.1 973.7 L1168.2 994.8 L1176.9 1003.5 L1181.2 1015.9 L1193.6 1025.2 L1212.9 1058.8 L1216.6 1083 L1225.3 1091.6 L1229.6 1104.1 L1244.5 1115.2 L1268.1 1157.4 L1270.6 1168 L1278.6 1176 L1284.2 1190.9 L1291.7 1199 L1409.5 1408.8 L1414.5 1441.7 L1421.9 1449.1 L1426.9 1462.1 L1446.1 1473.9 L1467.8 1512.4 L1469.7 1528.6 L1477.8 1537.2 L1484 1552.8 L1497 1564.5 L1539.2 1642.7 L1555.9 1653.3 L1556.6 1671.3 L1572.7 1681.8 L1575.2 1708.5 L1581.4 1712.9 L1581.4 1307 L1570.8 1304.5 L1564.6 1295.2 L1568.4 1272.2 L1581.4 1262.9 L1581.4 1255.5 L1564.6 1243.1 L1551.6 1220.1 L1528.6 1213.9 L1520 1206.5 L1518.7 1187.8 L1524.3 1175.4 L1522.4 1161.8 L1505.7 1134.5 L1486.5 1127 L1474.1 1127.6 L1465.4 1120.2 L1464.7 1099.7 L1470.3 1087.3 L1467.2 1071.2 L1449.2 1043.9 L1430.6 1038.3 L1421.3 1038.9 L1412.6 1031.4 L1410.8 1014.7 L1416.4 1002.9 L1413.3 986.1 L1395.3 958.8 L1371.1 952.6 L1362.4 945.2 L1361.1 927.2 L1366.1 916 L1362.4 898.6 L1345 872 L1323.3 866.4 L1314.6 858.9 L1313.4 840.3 L1318.3 829.1 L1315.9 813 L1297.2 784.4 L1273.7 778.9 L1263.7 769.6 L1260 761.5 L1265 741.6 L1263.1 726.7 L1244.5 697.6 L1224.7 691.4 L1215.3 683.3 L1208.5 669.6 L1211.6 657.2 L1209.8 642.9 L1193 615 L1173.2 607.6 L1158.3 613.2 Z"/>
+
+                        <!-- 08 Green Strip              (was 12) -->
+                        <path id="s-08" d="M1418.7 1693.5 L929.4 817 L1006.4 774 L1495.7 1650.5 Z"/>
+
+                    </defs>
+
+
+                    <use
+                        href="#s-07"
+                        class="building hotspot hotspot-07"
+                        data-id="07"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Location 07: Tree / Landscape Zone"
+                        onclick="openDirectory('07')"/>
+
+                    <use
+                        href="#s-08"
+                        class="building hotspot hotspot-08"
+                        data-id="08"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Location 08: Green Strip"
+                        onclick="openDirectory('08')"/>
+
+                    <use
+                        href="#s-06"
+                        class="building hotspot hotspot-06"
+                        data-id="06"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Location 06: Circular Museum"
+                        onclick="openDirectory('06')"/>
+
+                    <use
+                        href="#s-05"
+                        class="building hotspot hotspot-05"
+                        data-id="05"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Location 05: Landscape / Courtyard"
+                        onclick="openDirectory('05')"/>
+
+                    <use
+                        href="#s-04"
+                        class="building hotspot hotspot-04"
+                        data-id="04"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Location 04: Main Hall"
+                        onclick="openDirectory('04')"/>
+
+                    <use
+                        href="#s-03"
+                        class="building hotspot hotspot-03"
+                        data-id="03"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Location 03: Cyan Building"
+                        onclick="openDirectory('03')"/>
+
+                    <use
+                        href="#s-02"
+                        class="building hotspot hotspot-02"
+                        data-id="02"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Location 02: Pink Building"
+                        onclick="openDirectory('02')"/>
+
+                    <use
+                        href="#s-01"
+                        class="building hotspot hotspot-01"
+                        data-id="01"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Location 01: Purple Building"
+                        onclick="openDirectory('01')"/>
+
+
+                    <g class="glow-layer" id="glowLayer">
+                        <use id="glowFill" class="glow-fill" href="#s-01"/>
+                        <use id="glowHalo" class="glow-halo" href="#s-01" filter="url(#hotspotGlow)"/>
+                        <use id="glowLine" class="glow-line" href="#s-01"/>
+                    </g>
+
+                </svg>
+
+
+
+                <!-- =================================================
+                     NUMBER MARKERS
+                ================================================== -->
+
+                <button class="marker marker-01" data-id="01" onclick="openDirectory('01')">01</button>
+                <button class="marker marker-02" data-id="02" onclick="openDirectory('02')">02</button>
+                <button class="marker marker-03" data-id="03" onclick="openDirectory('03')">03</button>
+                <button class="marker marker-04" data-id="04" onclick="openDirectory('04')">04</button>
+                <button class="marker marker-05" data-id="05" onclick="openDirectory('05')">05</button>
+                <button class="marker marker-06" data-id="06" onclick="openDirectory('06')">06</button>
+                <button class="marker marker-07" data-id="07" onclick="openDirectory('07')">07</button>
+                <button class="marker marker-08" data-id="08" onclick="openDirectory('08')">08</button>
+
+
+            </div>
+
+
+            <div class="plan-label">
+                MASTERPLAN / 01
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             INFORMATION PANEL
+        ================================================== -->
+
+        <aside class="info-panel">
+
+
+            <h2 class="panel-title">
+                SITE PLAN
+            </h2>
+
+
+            <div class="panel-line"></div>
+
+
+            <p class="description">
+
+                Select a numbered location on the masterplan
+                to explore its architectural concepts,
+                visualizations, drawings, and media.
+
+            </p>
+
+
+            <div class="panel-line"></div>
+
+
+            <h3 class="buildings-title">
+                SITE DIRECTORY
+            </h3>
+
+
+            <div class="building-list">
+
+
+                <div class="building-list-item" data-id="01" onclick="openDirectory('01')">
+                    <div class="building-name">
+                        <span class="legend-number">01</span>
+                        <span class="building-dot color-purple"></span>
+                        Purple Building
+                    </div>
+                    <span class="arrow">›</span>
+                </div>
+
+
+                <div class="building-list-item" data-id="02" onclick="openDirectory('02')">
+                    <div class="building-name">
+                        <span class="legend-number">02</span>
+                        <span class="building-dot color-pink"></span>
+                        Pink Building
+                    </div>
+                    <span class="arrow">›</span>
+                </div>
+
+
+                <div class="building-list-item" data-id="03" onclick="openDirectory('03')">
+                    <div class="building-name">
+                        <span class="legend-number">03</span>
+                        <span class="building-dot color-cyan"></span>
+                        Cyan Building
+                    </div>
+                    <span class="arrow">›</span>
+                </div>
+
+
+                <div class="building-list-item" data-id="04" onclick="openDirectory('04')">
+                    <div class="building-name">
+                        <span class="legend-number">04</span>
+                        <span class="building-dot color-yellow"></span>
+                        Main Hall
+                    </div>
+                    <span class="arrow">›</span>
+                </div>
+
+
+                <div class="building-list-item" data-id="05" onclick="openDirectory('05')">
+                    <div class="building-name">
+                        <span class="legend-number">05</span>
+                        <span class="building-dot color-triangle"></span>
+                        Landscape / Courtyard
+                    </div>
+                    <span class="arrow">›</span>
+                </div>
+
+
+                <div class="building-list-item" data-id="06" onclick="openDirectory('06')">
+                    <div class="building-name">
+                        <span class="legend-number">06</span>
+                        <span class="building-dot color-red"></span>
+                        Circular Museum
+                    </div>
+                    <span class="arrow">›</span>
+                </div>
+
+
+                <div class="building-list-item" data-id="07" onclick="openDirectory('07')">
+                    <div class="building-name">
+                        <span class="legend-number">07</span>
+                        <span class="building-dot color-trees"></span>
+                        Tree / Landscape Zone
+                    </div>
+                    <span class="arrow">›</span>
+                </div>
+
+
+                <div class="building-list-item" data-id="08" onclick="openDirectory('08')">
+                    <div class="building-name">
+                        <span class="legend-number">08</span>
+                        <span class="building-dot color-strip"></span>
+                        Green Strip
+                    </div>
+                    <span class="arrow">›</span>
+                </div>
+
+
+            </div>
+
+
+            <button
+                class="explore-button"
+                onclick="openDirectory('06')">
+
+                ⌑
+                &nbsp;&nbsp;
+                EXPLORE CIRCULAR MUSEUM
+                &nbsp;&nbsp;
+                →
+
+            </button>
+
+
+        </aside>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     DIRECTORY POPUP
+===================================================== -->
+
+<div
+    class="overlay"
+    id="directoryOverlay"
+    onclick="closeDirectory(event)"
+>
+
+
+    <div
+        class="directory"
+        onclick="event.stopPropagation()"
+    >
+
+
+        <span
+            class="close"
+            onclick="closeDirectory()">
+            ×
+        </span>
+
+
+        <div
+            class="directory-number"
+            id="directoryNumber">
+            LOCATION 09
+        </div>
+
+
+        <h2 id="directoryTitle">
+            CIRCULAR MUSEUM
+        </h2>
+
+
+        <div class="directory-subtitle">
+            ARCHITECTURAL CONCEPT DIRECTORY
+        </div>
+
+
+        <div class="panel-line"></div>
+
+
+        <div class="directory-options">
+
+
+            <a
+                id="conceptVideo"
+                href="#"
+                class="directory-option">
+
+                <div class="option-left">
+
+                    <span class="option-icon">
+                        ▶
+                    </span>
+
+                    <span class="option-name">
+                        CONCEPT VIDEO
+                    </span>
+
+                </div>
+
+                <span class="option-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <a
+                id="walkthrough"
+                href="#"
+                class="directory-option">
+
+                <div class="option-left">
+
+                    <span class="option-icon">
+                        ▷
+                    </span>
+
+                    <span class="option-name">
+                        3D WALKTHROUGH
+                    </span>
+
+                </div>
+
+                <span class="option-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <a
+                id="renderings"
+                href="#"
+                class="directory-option">
+
+                <div class="option-left">
+
+                    <span class="option-icon">
+                        ▣
+                    </span>
+
+                    <span class="option-name">
+                        RENDERINGS
+                    </span>
+
+                </div>
+
+                <span class="option-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <a
+                id="plans"
+                href="#"
+                class="directory-option">
+
+                <div class="option-left">
+
+                    <span class="option-icon">
+                        ▤
+                    </span>
+
+                    <span class="option-name">
+                        PLANS & SECTIONS
+                    </span>
+
+                </div>
+
+                <span class="option-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <a
+                id="designConcept"
+                href="#"
+                class="directory-option">
+
+                <div class="option-left">
+
+                    <span class="option-icon">
+                        ℹ
+                    </span>
+
+                    <span class="option-name">
+                        DESIGN CONCEPT
+                    </span>
+
+                </div>
+
+                <span class="option-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MEDIA GALLERY POPUP      (reusable popup type)
+
+     Filled in by openMediaGallery() from the `media`
+     array of whichever location uses
+     popupType: "mediaGallery".
+===================================================== -->
+
+<div
+    class="overlay"
+    id="mediaGalleryOverlay"
+    onclick="closeMediaGallery(event)"
+>
+
+
+    <div
+        class="media-gallery"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mediaGalleryTitle"
+        onclick="event.stopPropagation()"
+    >
+
+
+        <span
+            class="close"
+            onclick="closeMediaGallery()">
+            &times;
+        </span>
+
+
+        <div
+            class="directory-number"
+            id="mediaGalleryNumber">
+            LOCATION 07
+        </div>
+
+
+        <div class="media-gallery-head">
+
+            <h2 id="mediaGalleryTitle">
+                TREE / LANDSCAPE ZONE
+            </h2>
+
+            <div
+                class="media-gallery-count"
+                id="mediaGalleryCount">
+                04 FILMS
+            </div>
+
+        </div>
+
+
+        <div
+            class="directory-subtitle"
+            id="mediaGallerySubtitle">
+            ARCHITECTURAL MEDIA GALLERY
+        </div>
+
+
+        <div class="panel-line"></div>
+
+
+        <!-- cards are generated here -->
+        <div
+            class="media-grid"
+            id="mediaGrid">
+        </div>
+
+
+        <div class="media-footnote">
+            SELECT A FRAME TO PLAY THE FILM
+            &nbsp; / &nbsp;
+            ESC TO CLOSE
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     INTEGRATED VIDEO PLAYER
+
+     Layered above the Media Gallery popup.  Closing it
+     returns the user to the gallery, never to another page.
+===================================================== -->
+
+<div
+    class="overlay video-overlay"
+    id="videoOverlay"
+    onclick="closeVideoPlayer(event)"
+>
+
+
+    <div
+        class="video-stage"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="videoTitle"
+        onclick="event.stopPropagation()"
+    >
+
+
+        <button
+            class="video-close"
+            aria-label="Close video"
+            onclick="closeVideoPlayer()">
+            &times;
+        </button>
+
+
+        <video
+            id="mediaPlayer"
+            controls
+            playsinline
+            preload="metadata">
+            Your browser does not support embedded video.
+        </video>
+
+
+        <div class="video-meta">
+
+            <div>
+
+                <div
+                    class="video-meta-number"
+                    id="videoNumber">
+                    FILM 01
+                </div>
+
+                <h3
+                    class="video-meta-title"
+                    id="videoTitle">
+                </h3>
+
+                <div
+                    class="video-meta-caption"
+                    id="videoCaption">
+                </div>
+
+            </div>
+
+
+            <button
+                class="video-back"
+                onclick="closeVideoPlayer()">
+                &larr; &nbsp; BACK TO GALLERY
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   BUILDING DATABASE
+
+   Every location carries a `popupType`, so the popup style
+   is data driven:
+
+       "directory"     -> the standard link directory popup
+       "mediaGallery"  -> the four-frame media gallery popup
+
+   To move a location onto the media gallery, give it
+   popupType: "mediaGallery" and a `media` array.  Nothing
+   else in the code has to change.
+
+   NUMBERING NOTE
+   The former locations 03, 04, 05 and 11 were removed and
+   the remaining eight were renumbered sequentially:
+
+       old 01 -> 01   Purple Building
+       old 02 -> 02   Pink Building
+       old 06 -> 03   Cyan Building
+       old 07 -> 04   Main Hall
+       old 08 -> 05   Landscape / Courtyard
+       old 09 -> 06   Circular Museum
+       old 10 -> 07   Tree / Landscape Zone
+       old 12 -> 08   Green Strip
+
+   Positions and traced geometry were not touched.
+========================================================= */
+
+const buildings = {
+
+    "01": {
+        name: "PURPLE BUILDING",
+        popupType: "directory",
+        conceptVideo: "videos/building-01-concept.mp4",
+        walkthrough: "videos/building-01-walkthrough.mp4",
+        renderings: "images/building-01-render.jpg",
+        plans: "documents/building-01-plans.pdf",
+        designConcept: "concepts/building-01.html"
+    },
+
+    "02": {
+        name: "PINK BUILDING",
+        popupType: "directory",
+        conceptVideo: "videos/building-02-concept.mp4",
+        walkthrough: "videos/building-02-walkthrough.mp4",
+        renderings: "images/building-02-render.jpg",
+        plans: "documents/building-02-plans.pdf",
+        designConcept: "concepts/building-02.html"
+    },
+
+    /* was 06 */
+    "03": {
+        name: "CYAN BUILDING",
+        popupType: "directory",
+        conceptVideo: "videos/building-06-concept.mp4",
+        walkthrough: "videos/building-06-walkthrough.mp4",
+        renderings: "images/building-06-render.jpg",
+        plans: "documents/building-06-plans.pdf",
+        designConcept: "concepts/building-06.html"
+    },
+
+    /* was 07 */
+    "04": {
+        name: "MAIN HALL",
+        popupType: "directory",
+        conceptVideo: "videos/main-hall-concept.mp4",
+        walkthrough: "videos/main-hall-walkthrough.mp4",
+        renderings: "images/main-hall-render.jpg",
+        plans: "documents/main-hall-plans.pdf",
+        designConcept: "concepts/main-hall.html"
+    },
+
+    /* was 08 */
+    "05": {
+        name: "LANDSCAPE / COURTYARD",
+        popupType: "directory",
+        conceptVideo: "videos/courtyard-concept.mp4",
+        walkthrough: "videos/courtyard-walkthrough.mp4",
+        renderings: "images/courtyard-render.jpg",
+        plans: "documents/courtyard-plans.pdf",
+        designConcept: "concepts/courtyard.html"
+    },
+
+    /* was 09 */
+    "06": {
+        name: "CIRCULAR MUSEUM",
+        popupType: "directory",
+        conceptVideo: "videos/museum-concept.mp4",
+        walkthrough: "videos/museum-walkthrough.mp4",
+        renderings: "images/museum-render.jpg",
+        plans: "documents/museum-plans.pdf",
+        designConcept: "concepts/museum.html"
+    },
+
+    /* =====================================================
+       07  TREE / LANDSCAPE ZONE      (was 10)
+
+       This is the one location using the MEDIA GALLERY
+       popup.  Each entry below becomes one clickable frame.
+
+           image   ->  preview still shown on the card
+           title   ->  small caps title on the card
+           caption ->  short descriptor under the title
+           video   ->  the .mp4 that plays in the overlay
+
+       >>> PUT YOUR FILES HERE <<<
+       Drop the four .mp4 files into a  videos/  folder and
+       the four preview stills into an  images/  folder,
+       both next to index.html, then edit the paths below.
+    ===================================================== */
+
+    "07": {
+        name: "TREE / LANDSCAPE ZONE",
+        popupType: "mediaGallery",
+        subtitle: "ARCHITECTURAL MEDIA GALLERY",
+
+        media: [
+
+            {
+                image: "images/Airport Road.png",
+                title: "CANOPY",
+                caption: "The upper tree layer and the filtered light it casts across the promenade.",
+                video: "videos/Feature7 Video00000182.mp4"
+            },
+
+            {
+                image: "images/Image 2.png",
+                title: "PROMENADE",
+                caption: "Walking the full length of the planted corridor from north to south.",
+                video: "videos/Feature7 Video00000385.mp4"
+            },
+
+            {
+                image: "images/Image 3.png",
+                title: "UNDERSTOREY",
+                caption: "Ground planting, paving and the seating pockets set between the trees.",
+                video: "videos/Feature7 Video00000661.mp4"
+            },
+
+            {
+                image: "images/Image 4.1.png",
+                title: "SEASONS",
+                caption: "The landscape band read across the four seasons of the year.",
+                video: "videos/Feature7 Video00000880.mp4"
+            }
+
+        ]
+    },
+
+    /* was 12 */
+    "08": {
+        name: "GREEN STRIP",
+        popupType: "directory",
+        conceptVideo: "videos/green-strip-concept.mp4",
+        walkthrough: "videos/green-strip-walkthrough.mp4",
+        renderings: "images/green-strip-render.jpg",
+        plans: "documents/green-strip-plans.pdf",
+        designConcept: "concepts/green-strip.html"
+    }
+
+};
+
+
+/* =========================================================
+   POPUP ROUTER
+
+   Every hotspot, marker and directory row calls this one
+   function.  It looks at the location's popupType and
+   opens the matching popup.
+========================================================= */
+
+function openDirectory(buildingID) {
+
+    const building = buildings[buildingID];
+
+    if (!building) return;
+
+
+    if (building.popupType === "mediaGallery") {
+
+        openMediaGallery(buildingID);
+
+    } else {
+
+        openStandardDirectory(buildingID);
+
+    }
+
+}
+
+
+/* =========================================================
+   STANDARD DIRECTORY POPUP      (unchanged behaviour)
+========================================================= */
+
+function openStandardDirectory(buildingID) {
+
+    const building = buildings[buildingID];
+
+    if (!building) return;
+
+    document.getElementById("directoryTitle").textContent =
+        building.name;
+
+    document.getElementById("directoryNumber").textContent =
+        "LOCATION " + buildingID;
+
+    document.getElementById("conceptVideo").href =
+        building.conceptVideo;
+
+    document.getElementById("walkthrough").href =
+        building.walkthrough;
+
+    document.getElementById("renderings").href =
+        building.renderings;
+
+    document.getElementById("plans").href =
+        building.plans;
+
+    document.getElementById("designConcept").href =
+        building.designConcept;
+
+    document
+        .getElementById("directoryOverlay")
+        .classList
+        .add("active");
+}
+
+
+function closeDirectory(event) {
+
+    if (
+        event &&
+        event.target !==
+        document.getElementById("directoryOverlay")
+    ) {
+        return;
+    }
+
+    document
+        .getElementById("directoryOverlay")
+        .classList
+        .remove("active");
+
+    setActive(null);
+}
+
+
+/* =========================================================
+   MEDIA GALLERY POPUP      (reusable popup type)
+
+   Builds one clickable frame per entry in the location's
+   `media` array.  Assign popupType: "mediaGallery" to any
+   other location and it will use this popup instead.
+========================================================= */
+
+const mediaGalleryOverlay =
+    document.getElementById("mediaGalleryOverlay");
+
+const mediaGrid =
+    document.getElementById("mediaGrid");
+
+
+/* the media list currently on screen, used by the player */
+
+let activeMedia = [];
+
+
+function pad(number) {
+
+    return String(number).padStart(2, "0");
+
+}
+
+
+function openMediaGallery(buildingID) {
+
+    const building = buildings[buildingID];
+
+    if (!building || !building.media) return;
+
+
+    activeMedia = building.media;
+
+
+    document.getElementById("mediaGalleryNumber").textContent =
+        "LOCATION " + buildingID;
+
+    document.getElementById("mediaGalleryTitle").textContent =
+        building.name;
+
+    document.getElementById("mediaGallerySubtitle").textContent =
+        building.subtitle || "ARCHITECTURAL MEDIA GALLERY";
+
+    document.getElementById("mediaGalleryCount").textContent =
+        pad(activeMedia.length) + " FILMS";
+
+
+    /* build the frames */
+
+    mediaGrid.innerHTML = "";
+
+
+    activeMedia.forEach(function(entry, index) {
+
+        const card =
+            document.createElement("button");
+
+        card.type = "button";
+
+        card.className = "media-card";
+
+        card.setAttribute(
+            "aria-label",
+            "Play film " + pad(index + 1) + ": " + (entry.title || "")
+        );
+
+        card.innerHTML =
+            '<div class="media-thumb">' +
+                '<img src="" alt="" draggable="false">' +
+                '<span class="media-index">' + pad(index + 1) + '</span>' +
+                '<span class="media-play">&#9654;</span>' +
+            '</div>' +
+            '<div class="media-text">' +
+                '<div class="media-title"></div>' +
+                '<div class="media-caption"></div>' +
+            '</div>';
+
+
+        const image =
+            card.querySelector("img");
+
+        image.alt =
+            entry.title || "";
+
+        /*
+           If the preview still is not there yet, the card
+           falls back to the hatched architectural block
+           instead of showing a broken image.
+        */
+
+        image.onerror = function() {
+            image.classList.add("missing");
+        };
+
+        image.src =
+            entry.image || "";
+
+
+        card.querySelector(".media-title").textContent =
+            entry.title || "";
+
+        card.querySelector(".media-caption").textContent =
+            entry.caption || "";
+
+
+        card.addEventListener("click", function() {
+            openVideoPlayer(index);
+        });
+
+
+        mediaGrid.appendChild(card);
+
+    });
+
+
+    mediaGalleryOverlay.classList.add("active");
+
+}
+
+
+function closeMediaGallery(event) {
+
+    if (
+        event &&
+        event.target !== mediaGalleryOverlay
+    ) {
+        return;
+    }
+
+    mediaGalleryOverlay.classList.remove("active");
+
+    setActive(null);
+
+}
+
+
+/* =========================================================
+   INTEGRATED VIDEO PLAYER
+
+   Opens on top of the media gallery.  Closing it leaves the
+   gallery exactly where it was, so the user never leaves
+   the site plan interface.
+========================================================= */
+
+const videoOverlay =
+    document.getElementById("videoOverlay");
+
+const mediaPlayer =
+    document.getElementById("mediaPlayer");
+
+
+function openVideoPlayer(index) {
+
+    const entry = activeMedia[index];
+
+    if (!entry) return;
+
+
+    document.getElementById("videoNumber").textContent =
+        "FILM " + pad(index + 1);
+
+    document.getElementById("videoTitle").textContent =
+        entry.title || "";
+
+    document.getElementById("videoCaption").textContent =
+        entry.caption || "";
+
+
+    mediaPlayer.src =
+        entry.video || "";
+
+    /*
+       Sound stays off until the user unmutes.  Playback is
+       only attempted because the user clicked a frame.
+    */
+
+    mediaPlayer.muted = true;
+
+    mediaPlayer.currentTime = 0;
+
+
+    videoOverlay.classList.add("active");
+
+
+    const attempt =
+        mediaPlayer.play();
+
+    if (attempt && attempt.catch) {
+
+        attempt.catch(function() {
+            /* autoplay blocked - the controls are still there */
+        });
+
+    }
+
+}
+
+
+function closeVideoPlayer(event) {
+
+    if (
+        event &&
+        event.target !== videoOverlay
+    ) {
+        return;
+    }
+
+    mediaPlayer.pause();
+
+    /* release the file so it stops buffering in the background */
+
+    mediaPlayer.removeAttribute("src");
+
+    mediaPlayer.load();
+
+
+    videoOverlay.classList.remove("active");
+
+}
+
+
+/* =========================================================
+   ESCAPE
+
+   Closes one layer at a time: video first, then whichever
+   popup is open.
+========================================================= */
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key !== "Escape") return;
+
+
+    if (videoOverlay.classList.contains("active")) {
+
+        closeVideoPlayer();
+
+        return;
+
+    }
+
+
+    if (mediaGalleryOverlay.classList.contains("active")) {
+
+        closeMediaGallery();
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("directoryOverlay")
+        .classList
+        .remove("active");
+
+    setActive(null);
+
+});
+
+
+/* =========================================================
+   ZOOM + PAN SYSTEM
+========================================================= */
+
+const viewport =
+    document.getElementById("planViewport");
+
+const canvas =
+    document.getElementById("planCanvas");
+
+const zoomDisplay =
+    document.getElementById("zoomLevel");
+
+
+const IMAGE_WIDTH = 1582;
+const IMAGE_HEIGHT = 2048;
+
+
+/* Current transformation */
+
+let zoom = 1;
+
+let panX = 0;
+let panY = 0;
+
+
+/* Initial fit scale */
+
+let fitScale = 1;
+
+
+/* Dragging */
+
+let pointerDown = false;
+let isDragging = false;
+
+let dragStartX = 0;
+let dragStartY = 0;
+
+let startingPanX = 0;
+let startingPanY = 0;
+
+let suppressClick = false;
+
+const DRAG_THRESHOLD = 5;
+
+
+/* =========================================================
+   CALCULATE FIT
+========================================================= */
+
+function calculateFitScale() {
+
+    const width =
+        viewport.clientWidth;
+
+    const height =
+        viewport.clientHeight;
+
+    const padding = 40;
+
+    const availableWidth =
+        width - padding;
+
+    const availableHeight =
+        height - padding;
+
+
+    const widthScale =
+        availableWidth / IMAGE_WIDTH;
+
+    const heightScale =
+        availableHeight / IMAGE_HEIGHT;
+
+
+    return Math.min(
+        widthScale,
+        heightScale
+    );
+}
+
+
+/* =========================================================
+   UPDATE TRANSFORM
+========================================================= */
+
+function updateCanvas() {
+
+    canvas.style.transform =
+        `translate(
+            calc(-50% + ${panX}px),
+            calc(-50% + ${panY}px)
+        )
+        scale(${zoom})`;
+
+
+    const percentage =
+        Math.round((zoom / fitScale) * 100);
+
+
+    if (
+        Math.abs(zoom - fitScale) < 0.001
+    ) {
+
+        zoomDisplay.textContent = "FIT";
+
+    } else {
+
+        zoomDisplay.textContent =
+            percentage + "%";
+
+    }
+
+    updateGlowScale();
+
+}
+
+
+/* =========================================================
+   LIMIT PAN
+========================================================= */
+
+function constrainPan() {
+
+    const vw =
+        viewport.clientWidth;
+
+    const vh =
+        viewport.clientHeight;
+
+
+    const scaledWidth =
+        IMAGE_WIDTH * zoom;
+
+    const scaledHeight =
+        IMAGE_HEIGHT * zoom;
+
+
+    const maxPanX =
+        Math.max(
+            0,
+            (scaledWidth - vw) / 2 + 100
+        );
+
+    const maxPanY =
+        Math.max(
+            0,
+            (scaledHeight - vh) / 2 + 100
+        );
+
+
+    panX =
+        Math.max(
+            -maxPanX,
+            Math.min(maxPanX, panX)
+        );
+
+
+    panY =
+        Math.max(
+            -maxPanY,
+            Math.min(maxPanY, panY)
+        );
+
+}
+
+
+/* =========================================================
+   FIT PLAN
+========================================================= */
+
+function fitPlan() {
+
+    fitScale =
+        calculateFitScale();
+
+    zoom =
+        fitScale;
+
+    panX = 0;
+    panY = 0;
+
+    updateCanvas();
+
+}
+
+
+/* =========================================================
+   ZOOM AROUND CURSOR
+========================================================= */
+
+function zoomAt(
+    newZoom,
+    clientX,
+    clientY
+) {
+
+    const rect =
+        viewport.getBoundingClientRect();
+
+
+    const cursorX =
+        clientX -
+        (rect.left + rect.width / 2);
+
+
+    const cursorY =
+        clientY -
+        (rect.top + rect.height / 2);
+
+
+    /*
+       Find which point of the image is
+       currently underneath the cursor.
+    */
+
+    const imagePointX =
+        (cursorX - panX) / zoom;
+
+    const imagePointY =
+        (cursorY - panY) / zoom;
+
+
+    zoom =
+        Math.max(
+            fitScale * 0.75,
+            Math.min(4, newZoom)
+        );
+
+
+    /*
+       Adjust pan so that the same image point
+       remains underneath the cursor.
+    */
+
+    panX =
+        cursorX -
+        imagePointX * zoom;
+
+
+    panY =
+        cursorY -
+        imagePointY * zoom;
+
+
+    constrainPan();
+
+    updateCanvas();
+
+}
+
+
+/* =========================================================
+   ZOOM IN
+========================================================= */
+
+function zoomIn() {
+
+    const rect =
+        viewport.getBoundingClientRect();
+
+    zoomAt(
+        zoom * 1.25,
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2
+    );
+
+}
+
+
+/* =========================================================
+   ZOOM OUT
+========================================================= */
+
+function zoomOut() {
+
+    const rect =
+        viewport.getBoundingClientRect();
+
+    zoomAt(
+        zoom / 1.25,
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2
+    );
+
+}
+
+
+/* =========================================================
+   MOUSE WHEEL ZOOM
+========================================================= */
+
+viewport.addEventListener(
+    "wheel",
+    function(event) {
+
+        event.preventDefault();
+
+
+        const factor =
+            event.deltaY < 0
+                ? 1.12
+                : 0.89;
+
+
+        zoomAt(
+            zoom * factor,
+            event.clientX,
+            event.clientY
+        );
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+/* =========================================================
+   DRAG TO PAN
+
+   A pan can now start on top of a hotspot too (the tree
+   corridor is large, so it would otherwise block dragging).
+   It only becomes a drag after moving DRAG_THRESHOLD px,
+   so a plain click still opens the directory.
+========================================================= */
+
+viewport.addEventListener(
+    "pointerdown",
+    function(event) {
+
+        if (
+            event.target.closest(".marker") ||
+            event.target.closest(".zoom-controls")
+        ) {
+            return;
+        }
+
+
+        pointerDown = true;
+        isDragging = false;
+
+
+        dragStartX =
+            event.clientX;
+
+        dragStartY =
+            event.clientY;
+
+
+        startingPanX =
+            panX;
+
+        startingPanY =
+            panY;
+
+    }
+);
+
+
+viewport.addEventListener(
+    "pointermove",
+    function(event) {
+
+        if (!pointerDown) return;
+
+
+        const dx =
+            event.clientX - dragStartX;
+
+        const dy =
+            event.clientY - dragStartY;
+
+
+        if (!isDragging) {
+
+            if (Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+
+
+            isDragging = true;
+
+            viewport.classList.add(
+                "dragging"
+            );
+
+            viewport.setPointerCapture(
+                event.pointerId
+            );
+
+            setActive(null);
+
+        }
+
+
+        panX =
+            startingPanX + dx;
+
+
+        panY =
+            startingPanY + dy;
+
+
+        constrainPan();
+
+        updateCanvas();
+
+    }
+);
+
+
+function endDrag(event) {
+
+    pointerDown = false;
+
+
+    if (isDragging) {
+
+        isDragging = false;
+
+        /* swallow the click that follows a drag */
+        suppressClick = true;
+
+        setTimeout(function() {
+            suppressClick = false;
+        }, 0);
+
+        try {
+
+            viewport.releasePointerCapture(
+                event.pointerId
+            );
+
+        } catch(e) {}
+
+    }
+
+
+    viewport.classList.remove(
+        "dragging"
+    );
+
+}
+
+
+viewport.addEventListener("pointerup", endDrag);
+
+viewport.addEventListener("pointercancel", endDrag);
+
+
+viewport.addEventListener(
+    "click",
+    function(event) {
+
+        if (suppressClick) {
+
+            event.stopPropagation();
+            event.preventDefault();
+
+        }
+
+    },
+    true
+);
+
+
+/* =========================================================
+   DOUBLE CLICK ZOOM
+========================================================= */
+
+viewport.addEventListener(
+    "dblclick",
+    function(event) {
+
+        if (
+            event.target.closest(".building") ||
+            event.target.closest(".marker") ||
+            event.target.closest(".zoom-controls")
+        ) {
+            return;
+        }
+
+
+        zoomAt(
+            zoom * 1.5,
+            event.clientX,
+            event.clientY
+        );
+
+    }
+);
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    function() {
+
+        const oldFit =
+            fitScale;
+
+        const newFit =
+            calculateFitScale();
+
+
+        /*
+           If the user is still at FIT,
+           update the fit automatically.
+        */
+
+        if (
+            Math.abs(zoom - oldFit) < 0.001
+        ) {
+
+            fitScale =
+                newFit;
+
+            zoom =
+                newFit;
+
+            panX = 0;
+            panY = 0;
+
+        } else {
+
+            fitScale =
+                newFit;
+
+        }
+
+
+        constrainPan();
+
+        updateCanvas();
+
+    }
+);
+
+
+/* =========================================================
+   GLOW + HOVER LINKING
+
+   Hovering / focusing any of: the hotspot on the plan,
+   its numbered marker, or its row in the Site Directory
+   lights up all three together.
+========================================================= */
+
+const glowLayer =
+    document.getElementById("glowLayer");
+
+const glowFill =
+    document.getElementById("glowFill");
+
+const glowHalo =
+    document.getElementById("glowHalo");
+
+const glowLine =
+    document.getElementById("glowLine");
+
+const glowShadowBlur =
+    document.getElementById("glowShadowBlur");
+
+const glowWideBlur =
+    document.getElementById("glowWideBlur");
+
+const glowTightBlur =
+    document.getElementById("glowTightBlur");
+
+
+let activeId = null;
+
+
+/* keep the glow the same size on screen at every zoom level */
+
+function updateGlowScale() {
+
+    const inv = 1 / zoom;
+
+    glowShadowBlur.setAttribute("stdDeviation", 6 * inv);
+    glowWideBlur.setAttribute("stdDeviation", 9 * inv);
+    glowTightBlur.setAttribute("stdDeviation", 3.5 * inv);
+
+    glowHalo.style.strokeWidth = String(8 * inv);
+    glowLine.style.strokeWidth = String(2 * inv);
+
+}
+
+
+function setActive(id) {
+
+    if (id === activeId) return;
+
+
+    document
+        .querySelectorAll(".marker.active, .building-list-item.active")
+        .forEach(function(el) {
+            el.classList.remove("active");
+        });
+
+
+    activeId = id;
+
+
+    if (!id) {
+
+        glowLayer.classList.remove("on");
+
+        return;
+
+    }
+
+
+    [glowFill, glowHalo, glowLine].forEach(function(el) {
+        el.setAttribute("href", "#s-" + id);
+    });
+
+    glowLayer.classList.add("on");
+
+
+    document
+        .querySelectorAll(".marker[data-id='" + id + "'], .building-list-item[data-id='" + id + "']")
+        .forEach(function(el) {
+            el.classList.add("active");
+        });
+
+}
+
+
+document.addEventListener("pointerover", function(event) {
+
+    if (isDragging) return;
+
+    const el =
+        event.target.closest ? event.target.closest("[data-id]") : null;
+
+    if (el) setActive(el.dataset.id);
+
+});
+
+
+document.addEventListener("pointerout", function(event) {
+
+    const from =
+        event.target.closest ? event.target.closest("[data-id]") : null;
+
+    if (!from) return;
+
+    const to =
+        event.relatedTarget && event.relatedTarget.closest
+            ? event.relatedTarget.closest("[data-id]")
+            : null;
+
+    if (!to || to.dataset.id !== from.dataset.id) {
+
+        if (activeId === from.dataset.id) setActive(null);
+
+    }
+
+});
+
+
+document.addEventListener("focusin", function(event) {
+
+    const el =
+        event.target.closest ? event.target.closest("[data-id]") : null;
+
+    if (el) setActive(el.dataset.id);
+
+});
+
+
+document.addEventListener("focusout", function(event) {
+
+    const el =
+        event.target.closest ? event.target.closest("[data-id]") : null;
+
+    if (el && activeId === el.dataset.id) setActive(null);
+
+});
+
+
+/* keyboard: Enter / Space on a focused hotspot opens it */
+
+viewport.addEventListener("keydown", function(event) {
+
+    if (
+        (event.key === "Enter" || event.key === " ") &&
+        event.target.classList &&
+        event.target.classList.contains("hotspot")
+    ) {
+
+        event.preventDefault();
+
+        openDirectory(event.target.dataset.id);
+
+    }
+
+});
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+window.addEventListener(
+    "load",
+    function() {
+
+        fitPlan();
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>
